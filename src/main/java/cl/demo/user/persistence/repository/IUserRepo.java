@@ -8,5 +8,5 @@ public interface IUserRepo extends IGenericRepo<User, String>{
 
     Optional<User> findOneByEmail(String email);
 
-    User findByToken(String token);
+    Optional<User> findByToken(String token);
 }

@@ -48,13 +48,13 @@ public class UserService extends GenericService<User, String> implements IUserSe
 
     @Override
     public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
-        User user = userRepo.findByToken(token);
+        Optional<User> user = userRepo.findByToken(token);
 
-        if(user != null){
+        if(user.isPresent()){
             org.springframework.security.core.userdetails.User userDetails =
                     new org.springframework.security.core.userdetails.User(
-                            user.getName(),
-                            user.getPassword(),
+                            user.get().getName(),
+                            user.get().getPassword(),
                             true,
                             true,
                             true,
