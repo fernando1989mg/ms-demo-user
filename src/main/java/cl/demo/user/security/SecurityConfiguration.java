@@ -22,7 +22,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-
     private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
             new AntPathRequestMatcher("/users/**", "GET")
     );

@@ -1,9 +1,10 @@
 package cl.demo.user.web.mapper;
 
+import cl.demo.user.config.Constant;
 import cl.demo.user.persistence.model.User;
 import cl.demo.user.persistence.model.UserPhone;
-import cl.demo.user.web.dto.UserPhoneDto;
 import cl.demo.user.web.dto.UserDto;
+import cl.demo.user.web.dto.UserPhoneDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -42,7 +43,7 @@ public class UserMapper {
                 null,
                 user.getId(),
                 user.getCreatedAt(),
-                user.getUpdatedAt(),
+                user.getModifiedAt(),
                 user.getLastLogin(),
                 user.getToken(),
                 true,
@@ -60,7 +61,8 @@ public class UserMapper {
                 userDTO.getEmail(),
                 bcrypt.encode(userDTO.getPassword()),
                 Collections.emptyList(),
-                UUID.randomUUID().toString());
+                UUID.randomUUID().toString(),
+                Instant.now().plusSeconds(Constant.EXPIRATION_TOKEN_IN_SECONDS));
 
         List<UserPhone> phones =
                 Optional.ofNullable(userDTO.getPhones())

@@ -11,11 +11,10 @@ import java.time.Instant;
 @Data
 @MappedSuperclass
 public class BaseEntity {
-    @Column(name="created_at", updatable = false)
+    @Column(updatable = false)
     @CreationTimestamp
     private Instant createdAt;
 
-    @Column(name="modified_at")
     @UpdateTimestamp
-    private Instant updatedAt;
+    private Instant modifiedAt;
 }

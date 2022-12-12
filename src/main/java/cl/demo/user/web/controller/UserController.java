@@ -30,11 +30,11 @@ public class UserController {
     }
 
     @PostMapping(path = "login")
-    public ResponseEntity<TokenDto> userLogin(@RequestParam("email") final String username, @RequestParam("password") final String password){
-        String token= userService.login(username,password);
+    public ResponseEntity<TokenDto> userLogin(@RequestParam("email") final String email, @RequestParam("password") final String password){
+        User user= userService.login(email,password);
 
         return new ResponseEntity<TokenDto>(
-                TokenDto.builder().token(token).build(),
+                TokenDto.builder().token(user.getToken()).build(),
                 HttpStatus.OK
         );
     }

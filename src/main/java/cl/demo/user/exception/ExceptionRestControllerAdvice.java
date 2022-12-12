@@ -2,12 +2,15 @@ package cl.demo.user.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import java.time.Instant;
 import java.util.List;
@@ -35,6 +38,13 @@ public class ExceptionRestControllerAdvice {
     public ExceptionResponseMessage handleUsernameExistsException(RuntimeException ex) {
 
         return sendResponse(HttpStatus.FORBIDDEN, ex);
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseBody
+    @ExceptionHandler(value = AuthenticationException.class)
+    public ExceptionResponseMessage handleAuthenticationExceptions(AuthenticationException ex, HttpServletResponse response) {
+        return sendResponse(HttpStatus.UNAUTHORIZED, ex);
     }
 
     @ExceptionHandler({Throwable.class})

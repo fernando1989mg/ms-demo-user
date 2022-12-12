@@ -1,5 +1,7 @@
 package cl.demo.user.service;
 
+import cl.demo.user.config.Constant;
+import cl.demo.user.exception.TokenExpiredException;
 import cl.demo.user.exception.UsernameExistsException;
 import cl.demo.user.exception.UsernameNotFoundException;
 import cl.demo.user.persistence.model.User;
@@ -10,6 +12,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,42 +31,46 @@ public class UserService extends GenericService<User, String> implements IUserSe
 
 
     @Override
-    public String login(String email, String password) {
+    public User login(String email, String password) {
         Optional<User> user = userRepo.findOneByEmail(email);
 
-        if(user.isPresent() &&
-                bcrypt.matches(password, user.get().getPassword())){
-
-            User userCustom = user.get();
-            String token = UUID.randomUUID().toString();
-            userCustom.setToken(token);
-
-            userRepo.save(userCustom);
-
-            return token;
-        }else{
-            throw new UsernameNotFoundException("Email or password incorrect");
-        }
+        return user
+                .filter(userData -> bcrypt.matches(password, userData.getPassword()))
+                .map(userData -> {
+                    userData.setToken(UUID.randomUUID().toString());
+                    userData.setTokenExpiration(Instant.now().plusSeconds(Constant.EXPIRATION_TOKEN_IN_SECONDS));
+                    return userRepo.save(userData);
+                })
+                .orElseThrow(() -> new UsernameNotFoundException("Email or password incorrect"));
     }
 
     @Override
     public Optional<org.springframework.security.core.userdetails.User> findByToken(String token) {
         Optional<User> user = userRepo.findByToken(token);
 
-        if(user.isPresent()){
-            org.springframework.security.core.userdetails.User userDetails =
-                    new org.springframework.security.core.userdetails.User(
-                            user.get().getName(),
-                            user.get().getPassword(),
-                            true,
-                            true,
-                            true,
-                            true,
-                            AuthorityUtils.createAuthorityList("USER")
-                    );
-            return Optional.of(userDetails);
-        }
-        return Optional.empty();
+        user
+            .filter(userData -> Instant.now().isAfter(userData.getTokenExpiration()) )
+            .map(userData -> {
+                throw new TokenExpiredException("Token has expired");
+                //return Optional.empty();
+            });
+
+
+        return user
+                .flatMap(userData -> {
+                    org.springframework.security.core.userdetails.User userDetails =
+                            new org.springframework.security.core.userdetails.User(
+                                    userData.getName(),
+                                    userData.getPassword(),
+                                    true,
+                                    true,
+                                    true,
+                                    true,
+                                    AuthorityUtils.createAuthorityList("USER")
+                            );
+                    return Optional.of(userDetails);
+                })
+                .or(() -> Optional.empty());
     }
 
     @Override

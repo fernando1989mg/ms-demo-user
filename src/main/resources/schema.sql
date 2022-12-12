@@ -7,7 +7,8 @@ CREATE TABLE users (
     name VARCHAR(80) NOT NULL,
     email VARCHAR(80) NOT NULL,
     password VARCHAR(256) NOT NULL,
-    token VARCHAR(256) NOT NULL
+    token VARCHAR(256) NOT NULL,
+    token_expiration DATETIME NOT NULL
 );
 
 CREATE TABLE user_phones (

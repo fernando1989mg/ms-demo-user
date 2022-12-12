@@ -1,6 +1,7 @@
 package cl.demo.user.persistence.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class User extends BaseEntity {
 
     @Id
@@ -24,10 +26,8 @@ public class User extends BaseEntity {
     )
     private String id;
 
-    @Column(name="last_login")
     private Instant lastLogin;
 
-    @Column(name="is_active")
     private Boolean isActive;
 
     private String name;
@@ -40,4 +40,6 @@ public class User extends BaseEntity {
     private List<UserPhone> userPhones;
 
     private String token;
+
+    private Instant tokenExpiration;
 }
