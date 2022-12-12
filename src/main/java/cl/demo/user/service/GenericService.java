@@ -1,7 +1,7 @@
 package cl.demo.user.service;
 
-import cl.demo.user.exception.ResourceNotFoundException;
-import cl.demo.user.persistence.repository.IGenericRepo;
+import cl.demo.user.domain.exception.ResourceNotFoundException;
+import cl.demo.user.repository.IGenericRepo;
 
 public abstract class GenericService<T, ID> implements IGenericService<T, ID> {
 

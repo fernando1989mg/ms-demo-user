@@ -1,4 +1,4 @@
-package cl.demo.user.web.validation;
+package cl.demo.user.domain.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

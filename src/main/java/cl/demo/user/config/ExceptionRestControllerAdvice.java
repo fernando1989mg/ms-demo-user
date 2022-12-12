@@ -1,5 +1,8 @@
-package cl.demo.user.exception;
+package cl.demo.user.config;
 
+import cl.demo.user.domain.exception.ExceptionResponseMessage;
+import cl.demo.user.domain.exception.ResourceNotFoundException;
+import cl.demo.user.domain.exception.UsernameExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;

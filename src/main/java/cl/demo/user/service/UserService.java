@@ -1,13 +1,15 @@
 package cl.demo.user.service;
 
 import cl.demo.user.config.Constant;
-import cl.demo.user.exception.TokenExpiredException;
-import cl.demo.user.exception.UsernameExistsException;
-import cl.demo.user.exception.UsernameNotFoundException;
-import cl.demo.user.persistence.model.User;
-import cl.demo.user.persistence.repository.IGenericRepo;
-import cl.demo.user.persistence.repository.IUserRepo;
-import lombok.AllArgsConstructor;
+import cl.demo.user.domain.exception.TokenExpiredException;
+import cl.demo.user.domain.exception.UsernameExistsException;
+import cl.demo.user.domain.exception.UsernameNotFoundException;
+import cl.demo.user.domain.model.User;
+import cl.demo.user.repository.IGenericRepo;
+import cl.demo.user.repository.IUserRepo;
+import cl.demo.user.domain.dto.UserDto;
+import cl.demo.user.domain.mapper.UserMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,12 +19,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service("UserService")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService extends GenericService<User, String> implements IUserService {
 
-    private IUserRepo userRepo;
+    private final IUserRepo userRepo;
 
-    private BCryptPasswordEncoder bcrypt;
+    private final BCryptPasswordEncoder bcrypt;
+
+    private final UserMapper userMapper;
 
     @Override
     protected IGenericRepo<User, String> getRepo() {
@@ -74,12 +78,20 @@ public class UserService extends GenericService<User, String> implements IUserSe
     }
 
     @Override
-    public User register(User user) {
-        userRepo.findOneByEmail(user.getEmail())
+    public UserDto register(UserDto rqUserDto) {
+        userRepo.findOneByEmail(rqUserDto.getEmail())
                 .ifPresent(userData -> {
                     throw new UsernameExistsException("This email is already registered");
                 });
 
-        return super.register(user);
+        User user = userMapper.convertDtoToUser(rqUserDto);
+
+        return userMapper.convertUserToDto(super.register(user));
+    }
+
+    @Override
+    public UserDto getUser(String id) {
+
+        return  userMapper.convertUserToDto(super.getById(id));
     }
 }

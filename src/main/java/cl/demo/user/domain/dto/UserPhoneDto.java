@@ -1,4 +1,4 @@
-package cl.demo.user.web.dto;
+package cl.demo.user.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

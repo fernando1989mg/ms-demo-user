@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration
-public class CommonConfig {
+public class ConfigBeans {
 
     @Bean
     public MessageSource messageSource() {

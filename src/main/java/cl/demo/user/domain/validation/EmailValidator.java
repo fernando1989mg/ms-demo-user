@@ -1,4 +1,4 @@
-package cl.demo.user.web.validation;
+package cl.demo.user.domain.validation;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -9,17 +9,17 @@ import javax.validation.ConstraintValidatorContext;
 
 @Configuration
 @PropertySource("classpath:configuration.properties")
-public class PasswordValidator implements ConstraintValidator<ValidPassword, String> {
+public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
-    @Value("${regexp.password}")
+    @Value("${regexp.email}")
     private String regexp;
 
     @Override
-    public void initialize(ValidPassword constraintAnnotation) {
+    public void initialize(ValidEmail constraintAnnotation) {
     }
 
     @Override
-    public boolean isValid(String password, ConstraintValidatorContext context) {
-        return password != null && password.matches(regexp);
+    public boolean isValid(String email, ConstraintValidatorContext context) {
+        return email != null && email.matches(regexp);
     }
 }

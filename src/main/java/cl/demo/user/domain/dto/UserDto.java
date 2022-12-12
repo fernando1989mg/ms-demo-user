@@ -1,7 +1,7 @@
-package cl.demo.user.web.dto;
+package cl.demo.user.domain.dto;
 
-import cl.demo.user.web.validation.ValidEmail;
-import cl.demo.user.web.validation.ValidPassword;
+import cl.demo.user.domain.validation.ValidEmail;
+import cl.demo.user.domain.validation.ValidPassword;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,9 +30,9 @@ public class UserDto {
     private String password;
 
     private String id;
-    private Instant created;
-    private Instant modified;
-    private Instant last_login;
+    private Instant createdAt;
+    private Instant modifiedAt;
+    private Instant lastLogin;
     private String token;
     private Boolean isActive;
 

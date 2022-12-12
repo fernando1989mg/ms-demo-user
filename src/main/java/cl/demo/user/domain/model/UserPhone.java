@@ -1,18 +1,17 @@
-package cl.demo.user.persistence.model;
+package cl.demo.user.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+
 
 @Entity
 @Table(name="user_phones")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 public class UserPhone {
 
@@ -26,8 +25,12 @@ public class UserPhone {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
+
+
     private Integer number;
+
     private Integer cityCode;
+
     private Integer countryCode;
 }

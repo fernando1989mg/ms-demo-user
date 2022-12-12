@@ -1,9 +1,6 @@
-package cl.demo.user.persistence.model;
+package cl.demo.user.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -14,8 +11,8 @@ import java.util.List;
 @Table(name="users")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Builder
+@Getter
+@Setter
 public class User extends BaseEntity {
 
     @Id
@@ -36,8 +33,8 @@ public class User extends BaseEntity {
 
     private String password;
 
-    @OneToMany(mappedBy = "userId", cascade = { CascadeType.ALL })
-    private List<UserPhone> userPhones;
+    @OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
+    private List<UserPhone> phones;
 
     private String token;
 

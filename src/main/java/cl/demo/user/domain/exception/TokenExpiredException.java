@@ -1,4 +1,4 @@
-package cl.demo.user.exception;
+package cl.demo.user.domain.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

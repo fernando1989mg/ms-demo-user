@@ -1,4 +1,4 @@
-package cl.demo.user.persistence.model;
+package cl.demo.user.domain.model;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
