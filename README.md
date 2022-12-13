@@ -3,6 +3,8 @@
 Esta es una API Rest para guardar usuarios y probar autenticación mediante UUID token, está programada con Java
 usando Spring Framework con SpringBoot
 
+![Diagrama Demo](DIAGRAMA01.png)
+
 ## Cómo ejecutar la API en local?
 
 *   Puede situarse en la raiz del proyecto y ejecutar el comando 
