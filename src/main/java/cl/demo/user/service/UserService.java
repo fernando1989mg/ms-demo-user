@@ -56,7 +56,6 @@ public class UserService extends GenericService<User, String> implements IUserSe
             .filter(userData -> Instant.now().isAfter(userData.getTokenExpiration()) )
             .map(userData -> {
                 throw new TokenExpiredException("Token has expired");
-                //return Optional.empty();
             });
 
 

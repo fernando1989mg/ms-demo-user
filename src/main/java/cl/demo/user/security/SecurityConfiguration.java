@@ -23,7 +23,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
-            new AntPathRequestMatcher("/users/**", "GET")
+            new AntPathRequestMatcher("/api/users/**", "GET")
     );
 
     AuthenticationProvider provider;
@@ -35,13 +35,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) {
+
         auth.authenticationProvider(provider);
     }
 
     @Override
     public void configure(final WebSecurity webSecurity) {
         webSecurity.ignoring()
-                .antMatchers("/users/login");
+                .antMatchers("/api/users/login");
     }
 
     @Override
@@ -71,12 +72,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     AuthenticationFilter authenticationFilter() throws Exception {
         final AuthenticationFilter filter = new AuthenticationFilter(PROTECTED_URLS);
         filter.setAuthenticationManager(authenticationManager());
-        //filter.setAuthenticationSuccessHandler(successHandler());
         return filter;
     }
 
     @Bean
     AuthenticationEntryPoint forbiddenEntryPoint() {
+
         return new HttpStatusEntryPoint(HttpStatus.FORBIDDEN);
     }
 }
