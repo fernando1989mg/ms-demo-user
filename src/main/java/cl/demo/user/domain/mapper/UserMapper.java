@@ -1,13 +1,10 @@
 package cl.demo.user.domain.mapper;
 
 import cl.demo.user.config.Constant;
+import cl.demo.user.domain.dto.UserDto;
 import cl.demo.user.domain.model.User;
 import cl.demo.user.domain.model.UserPhone;
-import cl.demo.user.domain.dto.UserDto;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.time.Instant;
@@ -15,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", uses = PasswordEncoderMapper.class)
+@Mapper(componentModel = "spring", uses = PasswordEncoderMapper.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
@@ -23,6 +20,7 @@ public interface UserMapper {
     @Mapping(source = "password", target = "password", qualifiedBy = EncodedMapping.class)
     User convertDtoToUser(UserDto userDto);
 
+    @Mapping(target = "password", ignore = true)
     UserDto convertUserToDto(User user);
 
     @AfterMapping

@@ -1,14 +1,13 @@
 package cl.demo.user.domain.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class ExceptionResponseMessage {
     private Instant time;
     private int status;

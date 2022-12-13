@@ -2,7 +2,7 @@ package cl.demo.user.domain.dto;
 
 import cl.demo.user.domain.validation.ValidEmail;
 import cl.demo.user.domain.validation.ValidPassword;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +25,7 @@ public class UserDto {
     private String email;
 
     @ValidPassword(message = "{validate.password}")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonInclude(JsonInclude.Include.NON_NULL) //siempre será nulo debido al UserMapper
     @NotNull
     private String password;
 
